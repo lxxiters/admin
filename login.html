@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>LX XITERS - Login Revendedor Pro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    :root{
+      --gold-1:#ffd700;
+      --gold-2:#ffbf00;
+      --gold-3:#ff9800;
+      --gold-soft:rgba(255,215,0,.10);
+      --gold-line:rgba(255,215,0,.16);
+
+      --bg-1:#000000;
+      --bg-2:#070707;
+      --bg-3:#0d0d0d;
+      --bg-4:#111111;
+      --bg-5:#161616;
+
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.68);
+      --danger:#ff7b7b;
+      --success:#57ff97;
+
+      --shadow-big:0 20px 45px rgba(0,0,0,.45);
+      --shadow-soft:0 10px 25px rgba(0,0,0,.25);
+    }
+
+    html,body{
+      min-height:100%;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255,215,0,.14), transparent 26%),
+        radial-gradient(circle at bottom, rgba(255,153,0,.11), transparent 28%),
+        linear-gradient(135deg,var(--bg-1) 0%, var(--bg-2) 35%, var(--bg-3) 100%);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .bg-orb{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(85px);
+      opacity:.18;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .orb-1{
+      width:260px;
+      height:260px;
+      background:var(--gold-1);
+      top:20px;
+      left:-35px;
+    }
+
+    .orb-2{
+      width:260px;
+      height:260px;
+      background:var(--gold-3);
+      bottom:15px;
+      right:-35px;
+    }
+
+    .grid-noise{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.38), rgba(0,0,0,0));
+      opacity:.28;
+    }
+
+    .particles{
+      position:fixed;
+      inset:0;
+      overflow:hidden;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .particle{
+      position:absolute;
+      user-select:none;
+      color:rgba(255,215,0,.40);
+      text-shadow:0 0 14px rgba(255,215,0,.22);
+      font-weight:800;
+      line-height:1;
+      animation-name:floatMoney;
+      animation-timing-function:linear;
+      animation-iteration-count:infinite;
+    }
+
+    @keyframes floatMoney{
+      from{
+        transform:translateY(110vh) rotate(0deg);
+        opacity:0;
+      }
+      10%{
+        opacity:.45;
+      }
+      80%{
+        opacity:.55;
+      }
+      to{
+        transform:translateY(-15vh) rotate(20deg);
+        opacity:0;
+      }
+    }
+
+    .login-wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      position:relative;
+      z-index:1;
+    }
+
+    .login-card{
+      width:100%;
+      max-width:355px;
+      border-radius:30px;
+      padding:18px 16px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
+        rgba(0,0,0,.62);
+      border:1px solid var(--gold-line);
+      backdrop-filter:blur(18px);
+      box-shadow:
+        0 0 0 1px rgba(255,215,0,.03) inset,
+        0 0 42px rgba(255,191,0,.05),
+        var(--shadow-big);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .login-card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:linear-gradient(120deg, transparent, rgba(255,215,0,.08), transparent);
+      transform:translateX(-100%);
+      animation:cardShine 6s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes cardShine{
+      0%{ transform:translateX(-100%); }
+      100%{ transform:translateX(100%); }
+    }
+
+    .access-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-height:38px;
+      padding:0 14px;
+      border-radius:999px;
+      background:rgba(255,215,0,.08);
+      border:1px solid rgba(255,215,0,.14);
+      color:var(--gold-1);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,215,0,.04),
+        0 8px 16px rgba(0,0,0,.18);
+    }
+
+    .chip-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--gold-1),var(--gold-3));
+      box-shadow:0 0 12px rgba(255,215,0,.5);
+      flex-shrink:0;
+    }
+
+    .logo-wrap{
+      display:flex;
+      justify-content:center;
+      margin:18px 0 8px;
+    }
+
+    .logo-box{
+      width:92px;
+      height:92px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(circle at top, rgba(255,215,0,.16), transparent 60%),
+        #090909;
+      border:1px solid rgba(255,215,0,.15);
+      box-shadow:
+        0 0 24px rgba(255,191,0,.08),
+        inset 0 0 0 8px rgba(255,215,0,.03);
+      overflow:hidden;
+    }
+
+    .logo-box img{
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      object-fit:contain;
+    }
+
+    .login-title{
+      text-align:center;
+      font-family:'Orbitron',sans-serif;
+      font-size:32px;
+      line-height:1;
+      color:var(--gold-1);
+      margin-top:8px;
+      text-shadow:0 0 18px rgba(255,215,0,.09);
+      letter-spacing:1px;
+    }
+
+    .login-subtitle{
+      margin:10px 0 18px;
+      text-align:center;
+      color:#d8d8d8;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .login-subtitle b{
+      color:var(--gold-1);
+    }
+
+    .login-form{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .field label{
+      font-size:12px;
+      font-weight:700;
+      color:#f4de82;
+      letter-spacing:.4px;
+    }
+
+    .field input{
+      width:100%;
+      height:52px;
+      border:none;
+      outline:none;
+      border-radius:18px;
+      background:linear-gradient(180deg,#0d0d12 0%, #09090d 100%);
+      color:#fff;
+      padding:0 15px;
+      font-size:14px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,215,0,.10),
+        0 10px 22px rgba(0,0,0,.22);
+      transition:.22s ease;
+    }
+
+    .field input:focus{
+      box-shadow:
+        inset 0 0 0 1px rgba(255,215,0,.22),
+        0 0 0 4px rgba(255,215,0,.04),
+        0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .field input::placeholder{
+      color:rgba(255,255,255,.30);
+    }
+
+    .login-btn{
+      min-height:52px;
+      border:none;
+      border-radius:18px;
+      font-family:'Orbitron',sans-serif;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg,#ffe66a 0%, var(--gold-1) 25%, var(--gold-2) 60%, var(--gold-3) 100%);
+      color:#111;
+      box-shadow:
+        0 12px 26px rgba(255,191,0,.22),
+        0 0 18px rgba(255,215,0,.14),
+        inset 0 1px 0 rgba(255,255,255,.35);
+    }
+
+    .login-btn::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:-120%;
+      width:70%;
+      height:100%;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent);
+      transform:skewX(-20deg);
+      transition:.6s;
+    }
+
+    .login-btn:hover::before{
+      left:130%;
+    }
+
+    .login-btn:disabled{
+      cursor:not-allowed;
+      opacity:.75;
+    }
+
+    .error-text{
+      min-height:18px;
+      text-align:center;
+      color:var(--danger);
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .info-box{
+      margin-top:14px;
+      border-radius:18px;
+      padding:14px;
+      background:rgba(255,191,0,.06);
+      border:1px solid rgba(255,215,0,.08);
+      color:#d0d0d0;
+      font-size:13px;
+      line-height:1.55;
+      text-align:center;
+    }
+
+    .info-box b{
+      color:var(--gold-1);
+    }
+
+    .login-foot{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(255,255,255,.32);
+      font-size:11px;
+      letter-spacing:2px;
+    }
+
+    .success-overlay{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      background:rgba(0,0,0,.58);
+      backdrop-filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      opacity:0;
+      pointer-events:none;
+      transition:.28s ease;
+    }
+
+    .success-overlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .success-card{
+      width:100%;
+      max-width:260px;
+      background:
+        linear-gradient(180deg,#111 0%, #090909 100%);
+      border:1px solid rgba(255,215,0,.14);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,215,0,.03) inset,
+        0 0 18px rgba(255,215,0,.06),
+        0 12px 30px rgba(0,0,0,.45);
+      transform:scale(.8) translateY(20px);
+      transition:.25s ease;
+    }
+
+    .success-overlay.show .success-card{
+      transform:scale(1) translateY(0);
+      animation:popPro .35s ease;
+    }
+
+    .success-top-line{
+      height:3px;
+      width:100%;
+      background:linear-gradient(90deg,#ffd700,#ffbf00,#ff9800);
+      box-shadow:0 0 16px rgba(255,215,0,.25);
+    }
+
+    .success-head{
+      padding:16px 16px 10px;
+      text-align:left;
+    }
+
+    .success-head h2{
+      font-family:'Orbitron',sans-serif;
+      font-size:18px;
+      color:#ffd700;
+    }
+
+    .success-head p{
+      color:rgba(255,255,255,.62);
+      font-size:12px;
+    }
+
+    .success-list{
+      padding:8px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .success-row{
+      padding:10px 10px;
+      border-radius:12px;
+      background:linear-gradient(180deg,#121212 0%, #0d0d0d 100%);
+      border:1px solid rgba(255,215,0,.08);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,215,0,.02),
+        0 8px 16px rgba(0,0,0,.16);
+      animation:fadeUp .35s ease both;
+    }
+
+    .success-row:nth-child(1){animation-delay:.04s}
+    .success-row:nth-child(2){animation-delay:.08s}
+    .success-row:nth-child(3){animation-delay:.12s}
+    .success-row:nth-child(4){animation-delay:.16s}
+    .success-row:nth-child(5){animation-delay:.20s}
+    .success-row:nth-child(6){animation-delay:.24s}
+    .success-row:nth-child(7){animation-delay:.28s}
+
+    .success-row small{
+      display:block;
+      color:rgba(255,255,255,.55);
+      font-size:10px;
+      margin-bottom:8px;
+    }
+
+    .success-row strong{
+      display:block;
+      color:#fff;
+      font-size:12px;
+      line-height:1.4;
+      word-break:break-word;
+    }
+
+    .success-actions{
+      padding:0 14px 16px;
+    }
+
+    .success-ok{
+      width:100%;
+      height:40px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#ffe66a 0%, #ffd700 30%, #ffbf00 70%, #ff9800 100%);
+      color:#111;
+      font-family:'Orbitron',sans-serif;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:1px;
+      cursor:pointer;
+      box-shadow:
+        0 12px 20px rgba(255,191,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.30);
+    }
+
+    .status-active{
+      color:#57ff97 !important;
+      text-shadow:0 0 10px rgba(87,255,151,.18);
+    }
+
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform:translateY(10px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes popPro{
+      0%{
+        transform:scale(.7) translateY(20px);
+        opacity:0;
+      }
+      60%{
+        transform:scale(1.05);
+      }
+      100%{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    @media (max-width:560px){
+      .login-card{
+        max-width:340px;
+        padding:16px 14px;
+        border-radius:24px;
+      }
+
+      .logo-box{
+        width:84px;
+        height:84px;
+      }
+
+      .logo-box img{
+        width:58px;
+        height:58px;
+      }
+
+      .login-title{
+        font-size:28px;
+      }
+
+      .field input,
+      .login-btn{
+        height:50px;
+      }
+
+      .success-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .success-row strong{
+        text-align:left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="grid-noise"></div>
+
+  <div class="particles" id="particles"></div>
+
+  <section class="login-wrap">
+    <div class="login-card">
+      <div class="access-chip">
+        <span class="chip-dot"></span>
+        RESELLER ACCESS
+      </div>
+
+      <div class="logo-wrap">
+        <div class="logo-box">
+          <img src="logo.png" alt="Logo LX XITERS" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <h1 class="login-title">LX XITERS</h1>
+      <p class="login-subtitle">
+        Ingresa con tu <b>usuario revendedor</b> creado desde el admin.
+      </p>
+
+      <div class="login-form">
+        <div class="field">
+          <label>USUARIO</label>
+          <input type="text" id="user" placeholder="Ingresa tu usuario">
+        </div>
+
+        <div class="field">
+          <label>CONTRASEÑA</label>
+          <input type="password" id="pass" placeholder="Ingresa tu contraseña">
+        </div>
+
+        <button class="login-btn" id="loginBtn" onclick="login()">
+          START SESSION
+        </button>
+
+        <div class="error-text" id="loginError"></div>
+      </div>
+
+      <div class="info-box">
+        Acceso exclusivo para <b>revendedores</b>. Tu cuenta, saldo y permisos se controlan desde el panel admin.
+      </div>
+
+      <div class="login-foot">LX XITERS RESELLER GATEWAY</div>
+    </div>
+  </section>
+
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+      <div class="success-top-line"></div>
+
+      <div class="success-head">
+        <h2>Bienvenido</h2>
+        <p>Login Successfully</p>
+      </div>
+
+      <div class="success-list">
+        <div class="success-row">
+          <small>Usuario</small>
+          <strong id="m_user">-</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Créditos</small>
+          <strong id="m_credits">0</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Registro</small>
+          <strong id="m_register">-</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Vence</small>
+          <strong id="m_valid">-</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Admin</small>
+          <strong id="m_seller">LX Diego</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Status</small>
+          <strong class="status-active" id="m_status">Active</strong>
+        </div>
+
+        <div class="success-row">
+          <small>Dispositivos</small>
+          <strong id="m_devices">1 / 1</strong>
+        </div>
+      </div>
+
+      <div class="success-actions">
+        <button class="success-ok" id="successOkBtn">ACEPTAR</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getDatabase, ref, get, update, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+    const userInput = document.getElementById("user");
+    const passInput = document.getElementById("pass");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const successOverlay = document.getElementById("successOverlay");
+    const successOkBtn = document.getElementById("successOkBtn");
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA74DCIkgU8UTPp8YfBXCd1jodxZyPaHog",
+      authDomain: "lx-xiters-web-1d853.firebaseapp.com",
+      databaseURL: "https://lx-xiters-web-default-rtdb.firebaseio.com",
+      projectId: "lx-xiters-web-1d853",
+      storageBucket: "lx-xiters-web-1d853.firebasestorage.app",
+      messagingSenderId: "209933531654",
+      appId: "1:209933531654:web:31b70f82f5cc88afc32187",
+      measurementId: "G-XH12J8PR7E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function setError(message){
+      loginError.textContent = message || "";
+    }
+
+    function setLoading(isLoading){
+      loginBtn.disabled = isLoading;
+      loginBtn.textContent = isLoading ? "VALIDANDO..." : "START SESSION";
+    }
+
+    function formatDateTime(value){
+      if(!value) return "No definido";
+      const date = new Date(value);
+      if(isNaN(date.getTime())) return String(value);
+      return date.toLocaleString();
+    }
+
+    function ensureIsoDate(value){
+      if(!value) return null;
+      const date = new Date(value);
+      if(isNaN(date.getTime())) return null;
+      return date.toISOString();
+    }
+
+    function getLocalDeviceId(){
+      let deviceId = localStorage.getItem("lx_device_id");
+
+      if(!deviceId){
+        deviceId = "dev_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem("lx_device_id", deviceId);
+      }
+
+      return deviceId;
+    }
+
+    function normalizeDeviceIds(deviceIds){
+      if(!deviceIds) return {};
+      if(typeof deviceIds !== "object") return {};
+      return deviceIds;
+    }
+
+    function showSuccessModal(data){
+      document.getElementById("m_user").textContent = data.username || "-";
+      document.getElementById("m_credits").textContent = data.credits ?? 0;
+      document.getElementById("m_register").textContent = formatDateTime(data.firstLoginAt || data.createdAt || data.registerDate);
+      document.getElementById("m_valid").textContent = formatDateTime(data.validUntil);
+      document.getElementById("m_seller").textContent = data.seller || "LX Diego";
+
+      document.getElementById("m_status").textContent =
+        data.status === "paused"
+          ? "Paused"
+          : data.status
+            ? "Active"
+            : "Inactive";
+
+      document.getElementById("m_devices").textContent = `${Number(data.usedDevices || 0)} / ${Number(data.deviceLimit || 1)}`;
+
+      successOverlay.classList.add("show");
+    }
+
+    successOkBtn.addEventListener("click", () => {
+      window.location.href = "panel.html";
+    });
+
+    window.login = async function(){
+      const user = userInput.value.trim();
+      const pass = passInput.value.trim();
+
+      setError("");
+
+      if(!user || !pass){
+        setError("Completa usuario y contraseña.");
+        return;
+      }
+
+      try{
+        setLoading(true);
+
+        const snap = await get(ref(db, "resellers/" + user));
+
+        if(!snap.exists()){
+          setError("Ese usuario no existe.");
+          return;
+        }
+
+        const data = snap.val();
+
+        if(String(data.password || "") !== pass){
+          setError("Contraseña incorrecta.");
+          return;
+        }
+
+        if(data.status === false || data.status === "inactive"){
+          setError("Tu cuenta está inactiva.");
+          return;
+        }
+
+        if(data.status === "paused"){
+          setError("Tu cuenta está pausada.");
+          return;
+        }
+
+        const now = new Date().toISOString();
+        const deviceId = getLocalDeviceId();
+        const deviceLimit = Number(data.deviceLimit || 1);
+        const deviceIds = normalizeDeviceIds(data.deviceIds);
+
+        const alreadyAuthorized = !!deviceIds[deviceId];
+        const usedDevices = Object.keys(deviceIds).length;
+
+        if(!alreadyAuthorized && usedDevices >= deviceLimit){
+          setError(`Límite de dispositivos alcanzado (${deviceLimit}).`);
+          return;
+        }
+
+        const updates = {};
+
+        if(!data.firstLoginAt){
+          updates.firstLoginAt = now;
+        }
+
+        if(!data.seller){
+          updates.seller = "LX Diego";
+        }
+
+        if(!data.createdAt){
+          updates.createdAt = now;
+        }
+
+        updates.lastLogin = now;
+        updates.activeSession = true;
+
+        if(!alreadyAuthorized){
+          updates.deviceIds = {
+            ...deviceIds,
+            [deviceId]: {
+              createdAt: now,
+              lastLogin: now
+            }
+          };
+        }else{
+          updates.deviceIds = {
+            ...deviceIds,
+            [deviceId]: {
+              ...(deviceIds[deviceId] || {}),
+              lastLogin: now
+            }
+          };
+        }
+
+        await update(ref(db, "resellers/" + user), updates);
+        Object.assign(data, updates);
+
+        localStorage.setItem("user", user);
+
+        showSuccessModal({
+          username: data.username || user,
+          credits: Number(data.credits || 0),
+          firstLoginAt: ensureIsoDate(data.firstLoginAt) || data.firstLoginAt,
+          createdAt: ensureIsoDate(data.createdAt) || data.createdAt,
+          validUntil: data.validUntil || "No definido",
+          seller: data.seller || "LX Diego",
+          status: data.status === "paused"
+            ? "paused"
+            : (data.status === "inactive" || data.status === false ? false : true),
+          deviceLimit: deviceLimit,
+          usedDevices: Object.keys(updates.deviceIds || {}).length
+        });
+      }catch(error){
+        console.error(error);
+        setError("No se pudo iniciar sesión.");
+      }finally{
+        setLoading(false);
+      }
+    };
+
+    userInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") login();
+    });
+
+    passInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") login();
+    });
+
+    const particleContainer = document.getElementById("particles");
+    const icons = ["💰", "💲", "$", "💵"];
+
+    function createParticle(){
+      const el = document.createElement("span");
+      el.className = "particle";
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 100 + "%";
+      el.style.fontSize = (14 + Math.random() * 18) + "px";
+      el.style.animationDuration = (7 + Math.random() * 8) + "s";
+      el.style.animationDelay = (Math.random() * 4) + "s";
+      el.style.opacity = String(0.18 + Math.random() * 0.30);
+      particleContainer.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 16000);
+    }
+
+    for(let i = 0; i < 18; i++){
+      createParticle();
+    }
+
+    setInterval(createParticle, 900);
+  </script>
+</body>
+</html>
