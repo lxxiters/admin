@@ -1,0 +1,2084 @@
+<!DOCTYPE html>  <html lang="es">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />  
+  <title>LX XITERS Admin</title>  
+    
+  <link rel="preconnect" href="https://fonts.googleapis.com">  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">  
+</head>  
+<style>  
+*{  
+  margin:0;  
+  padding:0;  
+  box-sizing:border-box;  
+  -webkit-tap-highlight-color:transparent;  
+}  :root{
+--gold1:#ffd700;
+--gold2:#ffbf00;
+--gold3:#ff9800;
+--text:#ffffff;
+--muted:rgba(255,255,255,0.65);
+--line:rgba(255,215,0,0.16);
+--card:rgba(255,255,255,0.04);
+--success:#57ff97;
+--danger:#ff6c6c;
+}
+
+html, body{
+min-height:100%;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:
+radial-gradient(circle at top, rgba(255,215,0,0.10), transparent 30%),
+radial-gradient(circle at bottom, rgba(255,153,0,0.08), transparent 30%),
+linear-gradient(135deg,#000 0%, #070707 35%, #0d0d0d 100%);
+color:var(--text);
+}
+
+.bg-orb{
+position:fixed;
+border-radius:50%;
+filter:blur(75px);
+opacity:.14;
+z-index:0;
+pointer-events:none;
+}
+
+.orb-1{
+width:220px;
+height:220px;
+background:var(--gold1);
+top:40px;
+left:10px;
+}
+
+.orb-2{
+width:220px;
+height:220px;
+background:var(--gold3);
+bottom:40px;
+right:10px;
+}
+
+.app{
+display:flex;
+min-height:100vh;
+position:relative;
+z-index:1;
+}
+
+.sidebar{
+width:250px;
+background:rgba(0,0,0,0.58);
+border-right:1px solid var(--line);
+backdrop-filter:blur(16px);
+padding:18px 14px;
+position:fixed;
+top:0;
+left:0;
+height:100vh;
+z-index:30;
+transition:.25s ease;
+display:flex;
+flex-direction:column;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:22px;
+}
+
+.brand-logo{
+width:46px;
+height:46px;
+border-radius:12px;
+object-fit:cover;
+border:1px solid rgba(255,215,0,0.25);
+box-shadow:0 0 12px rgba(255,215,0,0.12);
+}
+
+.brand h1{
+font-family:'Orbitron',sans-serif;
+font-size:18px;
+color:var(--gold1);
+letter-spacing:1px;
+}
+
+.brand p{
+font-size:12px;
+color:var(--muted);
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:10px;
+flex:1;
+}
+
+.menu-btn{
+min-height:50px;
+border:none;
+border-radius:16px;
+background:#151515;
+color:#fff;
+font-size:14px;
+font-weight:600;
+text-align:left;
+padding:0 14px;
+cursor:pointer;
+box-shadow:inset 0 0 0 1px rgba(255,215,0,0.08);
+transition:.22s ease;
+}
+
+.menu-btn.active{
+background:linear-gradient(90deg,var(--gold1),var(--gold2),var(--gold3));
+color:#111;
+box-shadow:0 8px 18px rgba(255,191,0,0.18);
+}
+
+.sidebar-footer{
+padding-top:14px;
+border-top:1px solid rgba(255,215,0,0.08);
+}
+
+.sidebar-footer p{
+font-size:12px;
+color:var(--muted);
+margin-top:8px;
+}
+
+.mini-chip{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+color:#111;
+background:linear-gradient(90deg,var(--gold1),var(--gold2));
+}
+
+.content{
+margin-left:250px;
+width:calc(100% - 250px);
+padding:18px;
+}
+
+.topbar{
+position:sticky;
+top:0;
+z-index:20;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+margin-bottom:18px;
+padding:12px 0 16px;
+background:linear-gradient(to bottom, rgba(6,6,6,0.92), rgba(6,6,6,0.78), rgba(6,6,6,0));
+backdrop-filter:blur(8px);
+}
+
+.topbar-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.topbar-right{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.top-pill{
+min-height:38px;
+padding:0 12px;
+display:flex;
+align-items:center;
+gap:8px;
+border-radius:12px;
+background:#161616;
+color:var(--gold1);
+font-size:12px;
+font-weight:700;
+box-shadow:inset 0 0 0 1px rgba(255,215,0,0.10);
+}
+
+.notify-pill strong{
+color:#111;
+background:linear-gradient(90deg,var(--gold1),var(--gold2));
+min-width:20px;
+height:20px;
+border-radius:50%;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+font-size:10px;
+}
+
+.hamburger{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:#181818;
+color:var(--gold1);
+font-size:18px;
+box-shadow:inset 0 0 0 1px rgba(255,215,0,0.12);
+flex-shrink:0;
+}
+
+.topbar h2{
+font-family:'Orbitron',sans-serif;
+font-size:22px;
+color:var(--gold1);
+}
+
+.topbar p{
+color:var(--muted);
+font-size:12px;
+margin-top:2px;
+}
+
+.panel-section{
+display:none;
+}
+
+.panel-section.active{
+display:block;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:16px;
+}
+
+.grid-2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.stat-card, .card{
+background:var(--card);
+border:1px solid var(--line);
+backdrop-filter:blur(14px);
+box-shadow:
+0 0 0 1px rgba(255,215,0,0.04) inset,
+0 10px 26px rgba(0,0,0,0.34);
+}
+
+.stat-card{
+border-radius:18px;
+padding:16px;
+}
+
+.stat-card span{
+display:block;
+color:var(--muted);
+font-size:12px;
+margin-bottom:8px;
+}
+
+.stat-card strong{
+font-family:'Orbitron',sans-serif;
+font-size:24px;
+color:var(--gold1);
+}
+
+.card{
+border-radius:24px;
+padding:18px;
+}
+
+.card-header{
+margin-bottom:16px;
+}
+
+.card-header.between{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.card-header h3{
+font-size:18px;
+color:var(--gold1);
+}
+
+.info-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+gap:12px;
+padding:12px 14px;
+background:#101010;
+border-radius:14px;
+border:1px solid rgba(255,215,0,0.08);
+}
+
+.info-row span{
+color:var(--muted);
+font-size:13px;
+}
+
+.info-row strong{
+color:#fff;
+font-size:13px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.field{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.field.full{
+grid-column:1 / -1;
+}
+
+.field label{
+font-size:12px;
+font-weight:600;
+color:#f4d96d;
+}
+
+.field input,
+.field select{
+width:100%;
+height:48px;
+border:none;
+outline:none;
+border-radius:14px;
+background:#101010;
+color:#fff;
+padding:0 14px;
+font-size:14px;
+box-shadow:inset 0 0 0 1px rgba(255,215,0,0.12);
+}
+
+.field input::placeholder{
+color:rgba(255,255,255,0.34);
+}
+
+.key-preview-box{
+border-radius:22px;
+padding:14px;
+background:
+radial-gradient(circle at top left, rgba(255,215,0,0.14), transparent 35%),
+linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,255,255,0.02));
+border:1px solid rgba(255,215,0,0.14);
+box-shadow:
+0 0 0 1px rgba(255,215,0,0.03) inset,
+0 12px 26px rgba(0,0,0,0.28);
+}
+
+.key-preview-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+}
+
+.key-preview-label{
+font-size:11px;
+font-weight:700;
+letter-spacing:1px;
+color:var(--gold1);
+}
+
+.key-preview-badge{
+font-size:10px;
+font-weight:700;
+color:#111;
+padding:5px 9px;
+border-radius:999px;
+background:linear-gradient(90deg,var(--gold1),var(--gold2));
+}
+
+.key-preview-code{
+min-height:58px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:12px;
+border-radius:18px;
+background:#0b0b0b;
+border:1px solid rgba(255,215,0,0.12);
+color:#fff;
+font-family:'Orbitron',sans-serif;
+font-size:18px;
+line-height:1.45;
+letter-spacing:1px;
+word-break:break-all;
+box-shadow:
+inset 0 0 18px rgba(255,215,0,0.04),
+0 8px 18px rgba(0,0,0,0.20);
+}
+
+.key-preview-code.empty{
+color:rgba(255,255,255,0.42);
+font-family:'Poppins',sans-serif;
+font-size:16px;
+letter-spacing:0;
+}
+
+.copy-row{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.copy-row.only-btn{
+display:block;
+}
+
+.copy-row.only-btn .small-btn{
+width:100%;
+}
+
+.actions-row{
+display:flex;
+gap:10px;
+margin-top:16px;
+}
+
+.main-btn,
+.small-btn{
+border:none;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.main-btn{
+flex:1;
+min-height:52px;
+font-family:'Orbitron',sans-serif;
+font-size:14px;
+font-weight:800;
+letter-spacing:1.2px;
+border-radius:16px;
+position:relative;
+overflow:hidden;
+}
+
+.main-btn::before{
+content:"";
+position:absolute;
+top:0;
+left:-120%;
+width:70%;
+height:100%;
+background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+transform:skewX(-20deg);
+transition:.55s;
+}
+
+.main-btn:hover::before{
+left:130%;
+}
+
+.small-btn{
+min-width:88px;
+min-height:42px;
+border-radius:14px;
+padding:0 14px;
+font-size:12px;
+font-weight:700;
+}
+
+.gold{
+background:linear-gradient(135deg,#ffe66a 0%, #ffd700 25%, #ffbf00 60%, #ff9800 100%);
+color:#111;
+box-shadow:
+0 10px 24px rgba(255,191,0,0.22),
+0 0 18px rgba(255,215,0,0.14),
+inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+.dark{
+background:linear-gradient(180deg,#1b1b1b 0%, #131313 100%);
+color:var(--gold1);
+box-shadow:
+inset 0 0 0 1px rgba(255,215,0,0.14),
+0 8px 18px rgba(0,0,0,0.20);
+}
+
+.keys-list,
+.resellers-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:14px;
+}
+
+.key-item,
+.reseller-item{
+background:#101010;
+border:1px solid rgba(255,215,0,0.10);
+border-radius:16px;
+padding:14px;
+}
+
+.key-top,
+.reseller-top{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:8px;
+}
+
+.key-code,
+.reseller-code{
+font-family:'Orbitron',sans-serif;
+font-size:13px;
+color:#fff;
+word-break:break-all;
+}
+
+.badge{
+padding:5px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+white-space:nowrap;
+}
+
+.badge.active{
+background:rgba(72,255,136,0.12);
+color:var(--success);
+}
+
+.badge.inactive{
+  background:rgba(255,94,94,0.12);
+  color:var(--danger);
+}
+
+.badge.paused{
+  background:rgba(255,215,0,0.12);
+  color:#ffd700;
+}
+
+.key-meta,
+.reseller-meta{
+color:var(--muted);
+font-size:12px;
+line-height:1.7;
+}
+
+.key-actions,
+.reseller-actions{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-top:12px;
+}
+
+.key-actions button,
+.reseller-actions button{
+min-height:42px;
+border:none;
+border-radius:13px;
+background:linear-gradient(180deg,#1c1c1c 0%, #131313 100%);
+color:var(--gold1);
+font-size:11px;
+font-weight:700;
+box-shadow:
+inset 0 0 0 1px rgba(255,215,0,0.10),
+0 8px 16px rgba(0,0,0,0.18);
+}
+
+.empty-box{
+padding:18px;
+text-align:center;
+color:var(--muted);
+background:#101010;
+border-radius:16px;
+}
+
+.toast-wrap{
+position:fixed;
+top:10px;
+right:10px;
+z-index:9999;
+display:flex;
+flex-direction:column;
+gap:6px;
+width:160px;
+max-width:160px;
+pointer-events:none;
+}
+
+.toast{
+position:relative;
+overflow:hidden;
+padding:8px 10px 8px;
+border-radius:13px;
+backdrop-filter:blur(12px);
+background:linear-gradient(180deg, rgba(20,20,20,0.96), rgba(10,10,10,0.96));
+border:1px solid rgba(255,215,0,0.12);
+box-shadow:
+0 8px 16px rgba(0,0,0,0.26),
+0 0 10px rgba(255,191,0,0.06);
+transform:translateX(120%);
+opacity:0;
+animation:toastIn .30s ease forwards;
+}
+
+.toast.hide{
+animation:toastOut .30s ease forwards;
+}
+
+.toast::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+width:2px;
+height:100%;
+background:linear-gradient(180deg,#ffd700,#ff9800);
+}
+
+.toast-title{
+font-family:'Orbitron',sans-serif;
+font-size:9px;
+letter-spacing:.5px;
+color:var(--gold1);
+margin-bottom:2px;
+}
+
+.toast-text{
+color:rgba(255,255,255,0.82);
+font-size:9px;
+line-height:1.25;
+word-break:break-word;
+}
+
+.toast.success::before{
+background:linear-gradient(180deg,#5dff9b,#17d96c);
+}
+
+.toast.error::before{
+background:linear-gradient(180deg,#ff8585,#ff4d4d);
+}
+
+@keyframes toastIn{
+from{ transform:translateX(120%); opacity:0; }
+to{ transform:translateX(0); opacity:1; }
+}
+
+@keyframes toastOut{
+from{ transform:translateX(0); opacity:1; }
+to{ transform:translateX(120%); opacity:0; }
+}
+
+@media (max-width:1000px){
+.stats-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.grid-2{
+grid-template-columns:1fr;
+}
+}
+
+@media (max-width:768px){
+.sidebar{
+transform:translateX(-100%);
+}
+
+.sidebar.show{
+transform:translateX(0);
+}
+
+.content{
+margin-left:0;
+width:100%;
+}
+
+.topbar-right{
+display:none;
+}
+
+.form-grid,
+.actions-row,
+.key-actions,
+.reseller-actions{
+grid-template-columns:1fr;
+display:grid;
+}
+
+.toast-wrap{
+right:8px;
+top:8px;
+}
+}
+
+@media (max-width:560px){
+.stats-grid{
+grid-template-columns:1fr;
+}
+
+.info-row,
+.key-top,
+.reseller-top,
+.card-header.between,
+.key-preview-top{
+flex-direction:column;
+align-items:flex-start;
+}
+.seller-keys-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.62);
+  backdrop-filter:blur(6px);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+.seller-keys-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.seller-keys-modal{
+  width:100%;
+  max-width:760px;
+  max-height:88vh;
+  overflow:hidden;
+  border-radius:24px;
+  background:linear-gradient(180deg,#111 0%, #0b0b0b 100%);
+  border:1px solid rgba(255,215,0,.14);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.40),
+    inset 0 0 0 1px rgba(255,215,0,.04);
+  transform:translateY(18px) scale(.96);
+  transition:.25s ease;
+}
+
+.seller-keys-overlay.show .seller-keys-modal{
+  transform:translateY(0) scale(1);
+}
+
+.seller-keys-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:18px;
+  border-bottom:1px solid rgba(255,215,0,.08);
+}
+
+.seller-keys-head h3{
+  font-size:20px;
+  color:var(--gold1);
+}
+
+.seller-keys-head p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.seller-keys-close{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:12px;
+  background:#1a1a1a;
+  color:var(--gold1);
+  font-size:16px;
+  cursor:pointer;
+}
+
+.seller-keys-body{
+  max-height:calc(88vh - 84px);
+  overflow:auto;
+  padding:16px;
+}
+
+.seller-key-delete{
+  min-height:42px;
+  border:none;
+  border-radius:13px;
+  background:linear-gradient(180deg,#2a1010 0%, #1d0d0d 100%);
+  color:#ff8a8a;
+  font-size:11px;
+  font-weight:700;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,108,108,0.14),
+    0 8px 16px rgba(0,0,0,0.18);
+}
+</style>
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>  
+  <div class="bg-orb orb-2"></div>    <div class="app">  
+    <aside class="sidebar" id="sidebar">  
+      <div class="brand">  
+        <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">  
+        <div>  
+          <h1>LX XITERS</h1>  
+          <p>Admin Panel</p>  
+        </div>  
+      </div>  <nav class="menu">  
+    <button class="menu-btn active" data-section="dashboard">Dashboard</button>  
+    <button class="menu-btn" data-section="generate">Generate Key</button>  
+    <button class="menu-btn" data-section="manageKeys">Manage Keys</button>  
+    <button class="menu-btn" data-section="addReseller">Add Reseller</button>  
+    <button class="menu-btn" data-section="manageResellers">Manage Resellers</button>  
+    <button class="menu-btn" data-section="settings">Settings</button>  
+  </nav>  
+
+  <div class="sidebar-footer">  
+    <div class="mini-chip">PREMIUM</div>  
+    <p>Secure System</p>  
+  </div>  
+</aside>  
+
+<main class="content">  
+  <header class="topbar">  
+    <div class="topbar-left">  
+      <button class="hamburger" id="hamburger">☰</button>  
+      <div>  
+        <h2 id="sectionTitle">Dashboard</h2>  
+        <p id="sectionSubtitle">Resumen general del sistema</p>  
+      </div>  
+    </div>  
+
+    <div class="topbar-right">  
+      <div class="top-pill" id="liveClock">--:--</div>  
+      <div class="top-pill notify-pill">  
+        <span>Alerts</span>  
+        <strong id="notifCount">0</strong>  
+      </div>  
+    </div>  
+  </header>  
+
+  <section class="panel-section active" id="dashboard">  
+    <div class="stats-grid">  
+      <div class="stat-card">  
+        <span>Total Keys</span>  
+        <strong id="statTotalKeys">0</strong>  
+      </div>  
+      <div class="stat-card">  
+        <span>Keys Activas</span>  
+        <strong id="statActiveKeys">0</strong>  
+      </div>  
+      <div class="stat-card">  
+        <span>Keys Usadas</span>  
+        <strong id="statUsedKeys">0</strong>  
+      </div>  
+      <div class="stat-card">  
+        <span>Revendedores</span>  
+        <strong id="statResellers">0</strong>  
+      </div>  
+    </div>  
+
+    <div class="grid-2">  
+      <div class="card">  
+        <div class="card-header">  
+          <h3>Actividad rápida</h3>  
+        </div>  
+
+        <div class="info-list">  
+          <div class="info-row">  
+            <span>Última key generada</span>  
+            <strong id="lastGenerated">Sin generar</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Último revendedor</span>  
+            <strong id="lastReseller">Sin crear</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Modo mantenimiento</span>  
+            <strong id="maintenanceState">Desactivado</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Versión</span>  
+            <strong id="appVersionText">1.0.0</strong>  
+          </div>  
+        </div>  
+      </div>  
+
+      <div class="card">  
+        <div class="card-header">  
+          <h3>Resumen</h3>  
+        </div>  
+
+        <div class="info-list">  
+          <div class="info-row">  
+            <span>Revendedores activos</span>  
+            <strong id="statActiveResellers">0</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Revendedores inactivos</span>  
+            <strong id="statInactiveResellers">0</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Créditos totales</span>  
+            <strong id="statCredits">0</strong>  
+          </div>  
+          <div class="info-row">  
+            <span>Notificaciones</span>  
+            <strong id="statNotifications">0</strong>  
+          </div>  
+        </div>  
+      </div>  
+    </div>  
+  </section>  
+
+  <section class="panel-section" id="generate">  
+    <div class="card">  
+      <div class="card-header">  
+        <h3>Generar nueva key</h3>  
+      </div>  
+
+      <div class="form-grid">  
+        <div class="field">  
+          <label>Prefijo</label>  
+          <input type="text" id="prefix" value="LxXiters" placeholder="Ej: LxXiters">  
+        </div>  
+
+        <div class="field">  
+          <label>Estado</label>  
+          <select id="status">  
+            <option value="activa">Activa</option>  
+            <option value="inactiva">Inactiva</option>  
+          </select>  
+        </div>  
+
+        <div class="field">  
+          <label>Duración</label>  
+          <select id="duration">  
+            <option value="1 Día">1 Día</option>  
+            <option value="3 Días">3 Días</option>  
+            <option value="7 Días">7 Días</option>  
+            <option value="15 Días">15 Días</option>  
+            <option value="30 Días">30 Días</option>  
+            <option value="Ilimitada">Ilimitada</option>  
+          </select>  
+        </div>  
+
+        <div class="field">  
+          <label>Dispositivos</label>  
+          <select id="deviceLimit">  
+            <option value="1">1 Dispositivo</option>  
+            <option value="2">2 Dispositivos</option>  
+            <option value="-1">Ilimitado</option>  
+          </select>  
+        </div>  
+
+        <div class="field full">  
+          <label>Asignado a</label>  
+          <input type="text" id="assignedTo" placeholder="Opcional">  
+        </div>  
+
+        <div class="field full">  
+          <label>Última key generada</label>  
+          <div class="key-preview-box">  
+            <div class="key-preview-top">  
+              <span class="key-preview-label">KEY GENERADA</span>  
+              <span class="key-preview-badge">Premium</span>  
+            </div>  
+            <div class="key-preview-code empty" id="generatedKeyText">Sin generar</div>  
+            <div class="copy-row only-btn">  
+              <button class="small-btn gold" id="copyGeneratedBtn">Copiar</button>  
+            </div>  
+          </div>  
+        </div>  
+      </div>  
+
+      <div class="actions-row">  
+        <button class="main-btn gold" id="generateKeyBtn">GENERAR KEY</button>  
+        <button class="main-btn dark" id="previewKeyBtn">PREVIEW</button>  
+      </div>  
+    </div>  
+  </section>  
+
+  <section class="panel-section" id="manageKeys">  
+    <div class="card">  
+      <div class="card-header between">  
+        <h3>Gestionar keys</h3>  
+        <button class="small-btn dark" id="reloadKeysBtn">Recargar</button>  
+      </div>  
+
+      <div class="field">  
+        <label>Buscar</label>  
+        <input type="text" id="searchKeyInput" placeholder="Buscar por key o asignado a...">  
+      </div>  
+
+      <div class="keys-list" id="keysList">  
+        <div class="empty-box">Todavía no hay keys cargadas.</div>  
+      </div>  
+    </div>  
+  </section>  
+
+  <section class="panel-section" id="addReseller">  
+    <div class="card">  
+      <div class="card-header">  
+        <h3>Agregar revendedor</h3>  
+      </div>  
+
+      <div class="form-grid">  
+        <div class="field">  
+          <label>Usuario</label>  
+          <input type="text" id="resellerUsername" placeholder="Ej: pepe">  
+        </div>  
+
+        <div class="field">  
+          <label>Contraseña</label>  
+          <input type="text" id="resellerPassword" placeholder="Contraseña">  
+        </div>  
+
+        <div class="field">  
+          <label>Válido hasta</label>  
+          <input type="datetime-local" id="resellerValidUntil">  
+        </div>  
+
+        <div class="field">  
+          <label>Estado</label>  
+          <select id="resellerStatus">  
+  <option value="active">Activo</option>  
+  <option value="inactive">Inactivo</option>  
+  <option value="paused">Pausado</option>  
+</select>
+        </div>  
+
+        <div class="field">  
+          <label>Dispositivos</label>  
+          <select id="resellerDeviceLimit">  
+            <option value="1">1 Dispositivo</option>  
+            <option value="2">2 Dispositivos</option>  
+            <option value="-1">Ilimitado</option>  
+          </select>  
+        </div>  
+
+        <div class="field">  
+          <label>Créditos</label>  
+          <select id="resellerCredits">  
+            <option value="10">10 Créditos</option>  
+            <option value="20">20 Créditos</option>  
+            <option value="50">50 Créditos</option>  
+            <option value="100">100 Créditos</option>  
+            <option value="999">999 Créditos</option>  
+          </select>  
+        </div>  
+      </div>  
+
+      <div class="actions-row">  
+        <button class="main-btn gold" id="createResellerBtn">CREAR REVENDEDOR</button>  
+      </div>  
+    </div>  
+  </section>  
+
+  <section class="panel-section" id="manageResellers">  
+    <div class="card">  
+      <div class="card-header between">  
+        <h3>Manage Revendedores</h3>  
+        <button class="small-btn dark" id="reloadResellersBtn">Recargar</button>  
+      </div>  
+
+      <div class="field">  
+        <label>Buscar</label>  
+        <input type="text" id="searchResellerInput" placeholder="Buscar por usuario...">  
+      </div>  
+
+      <div class="resellers-list" id="resellersList">  
+        <div class="empty-box">Todavía no hay revendedores.</div>  
+      </div>  
+    </div>  
+  </section>  
+
+  <section class="panel-section" id="settings">  
+    <div class="card">  
+      <div class="card-header">  
+        <h3>Settings</h3>  
+      </div>  
+
+      <div class="form-grid">  
+        <div class="field">  
+          <label>Versión</label>  
+          <input type="text" id="appVersion" value="1.0.0">  
+        </div>  
+
+        <div class="field">  
+          <label>Mantenimiento</label>  
+          <select id="maintenanceMode">  
+            <option value="false">Desactivado</option>  
+            <option value="true">Activado</option>  
+          </select>  
+        </div>  
+
+        <div class="field full">  
+          <label>Mensaje</label>  
+          <input type="text" id="maintenanceMessage" placeholder="Mensaje para mostrar al usuario">  
+        </div>  
+
+        <div class="field full">  
+          <label>Link de soporte</label>  
+          <input type="text" id="supportLink" placeholder="https://...">  
+        </div>  
+      </div>  
+
+      <div class="actions-row">  
+        <button class="main-btn gold" id="saveSettingsBtn">GUARDAR SETTINGS</button>  
+      </div>  
+    </div>  
+  </section>  
+</main>
+
+<div class="seller-keys-overlay" id="sellerKeysOverlay">
+  <div class="seller-keys-modal">
+    <div class="seller-keys-head">
+      <div>
+        <h3 id="sellerKeysTitle">Keys del vendedor</h3>
+        <p id="sellerKeysSubtitle">Listado completo</p>
+      </div>
+      <button class="seller-keys-close" onclick="closeSellerKeysModal()">✕</button>
+    </div>
+
+    <div class="seller-keys-body">
+      <div class="keys-list" id="sellerKeysList">
+        <div class="empty-box">No hay keys creadas por este vendedor.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>    <div class="toast-wrap" id="toastWrap"></div> 
+   <script>
+const sections = document.querySelectorAll(".panel-section");
+const menuButtons = document.querySelectorAll(".menu-btn");
+const sectionTitle = document.getElementById("sectionTitle");
+const sectionSubtitle = document.getElementById("sectionSubtitle");
+const hamburger = document.getElementById("hamburger");
+const sidebar = document.getElementById("sidebar");
+
+const titles = {
+  dashboard: { title: "Dashboard", subtitle: "Resumen general del sistema" },
+  generate: { title: "Generate Key", subtitle: "Crea nuevas keys con límites y duración" },
+  manageKeys: { title: "Manage Keys", subtitle: "Administra, borra y resetea tus keys" },
+  addReseller: { title: "Add Reseller", subtitle: "Crea revendedores con créditos y duración" },
+  manageResellers: { title: "Manage Resellers", subtitle: "Edita, elimina y controla revendedores" },
+  settings: { title: "Settings", subtitle: "Configuración general del panel" }
+};
+
+let localKeys = [];
+let localResellers = [];
+let notifications = [];
+let generatedKeyValue = "";
+
+function showToast(title, text, type = "info") {
+  const wrap = document.getElementById("toastWrap");
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <div class="toast-title">${title}</div>
+    <div class="toast-text">${text}</div>
+  `;
+  wrap.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add("hide");
+    setTimeout(() => toast.remove(), 300);
+  }, 2200);
+}
+
+function showSection(id) {
+  sections.forEach(section => section.classList.remove("active"));
+  menuButtons.forEach(btn => btn.classList.remove("active"));
+
+  const targetSection = document.getElementById(id);
+  const targetBtn = document.querySelector(`.menu-btn[data-section="${id}"]`);
+
+  if (targetSection) targetSection.classList.add("active");
+  if (targetBtn) targetBtn.classList.add("active");
+
+  if (titles[id]) {
+    sectionTitle.textContent = titles[id].title;
+    sectionSubtitle.textContent = titles[id].subtitle;
+  }
+
+  if (window.innerWidth <= 768) {
+    sidebar.classList.remove("show");
+  }
+}
+
+menuButtons.forEach(btn => {
+  btn.addEventListener("click", () => showSection(btn.dataset.section));
+});
+
+hamburger.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
+});
+
+function startClock() {
+  const clock = document.getElementById("liveClock");
+  function update() {
+    const now = new Date();
+    clock.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+  update();
+  setInterval(update, 1000);
+}
+startClock();
+
+function randomKeyBody(length = 7) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+function generateKey(prefix = "LxXiters") {
+  const cleanPrefix = prefix.trim() || "LxXiters";
+  return `${cleanPrefix}-${randomKeyBody(7)}`;
+}
+
+function addNotification(title, text) {
+  notifications.unshift({
+    title,
+    text,
+    date: new Date().toLocaleString()
+  });
+  renderNotifications();
+}
+
+function renderNotifications() {
+  const notifCount = document.getElementById("notifCount");
+  const statNotifications = document.getElementById("statNotifications");
+  if (notifCount) notifCount.textContent = notifications.length;
+  if (statNotifications) statNotifications.textContent = notifications.length;
+}
+
+function updateStats() {
+  const totalKeys = localKeys.length;
+  const activeKeys = localKeys.filter(k => k.status === "activa").length;
+  const usedKeys = localKeys.filter(k => k.used === true).length;
+  const resellers = localResellers.length;
+  const activeResellers = localResellers.filter(r => r.status === "active").length;
+const inactiveResellers = localResellers.filter(r => r.status === "inactive" || r.status === "paused").length;
+  const credits = localResellers.reduce((sum, r) => sum + Number(r.credits || 0), 0);
+
+  document.getElementById("statTotalKeys").textContent = totalKeys;
+  document.getElementById("statActiveKeys").textContent = activeKeys;
+  document.getElementById("statUsedKeys").textContent = usedKeys;
+  document.getElementById("statResellers").textContent = resellers;
+  document.getElementById("statActiveResellers").textContent = activeResellers;
+  document.getElementById("statInactiveResellers").textContent = inactiveResellers;
+  document.getElementById("statCredits").textContent = credits;
+}
+
+function getUsedDevicesCount(deviceIds) {
+  if (!deviceIds) return 0;
+  if (Array.isArray(deviceIds)) return deviceIds.length;
+  if (typeof deviceIds === "object") return Object.keys(deviceIds).length;
+  return 0;
+}
+
+function renderKeys(list = localKeys) {
+  const keysList = document.getElementById("keysList");
+  if (!keysList) return;
+
+  if (!list.length) {
+    keysList.innerHTML = `<div class="empty-box">Todavía no hay keys cargadas.</div>`;
+    updateStats();
+    return;
+  }
+
+  keysList.innerHTML = list.map(item => {
+    const badgeClass = item.status === "activa" ? "active" : "inactive";
+    const deviceText = item.deviceLimit == -1 ? "Ilimitado" : item.deviceLimit + " dispositivo(s)";
+    const usedDevices = getUsedDevicesCount(item.deviceIds);
+
+    return `
+      <div class="key-item">
+        <div class="key-top">
+          <div class="key-code">${item.key}</div>
+          <div class="badge ${badgeClass}">${item.status}</div>
+        </div>
+        <div class="key-meta">
+          Duración: ${item.duration}<br>
+          Asignado a: ${item.assignedTo || "Sin asignar"}<br>
+          Límite: ${deviceText}<br>
+          Dispositivos usados: ${usedDevices}<br>
+          Usada: ${item.used ? "Sí" : "No"}
+        </div>
+        <div class="key-actions">
+          <button onclick="copyKey('${item.key}')">Copiar</button>
+          <button onclick="toggleKeyStatus('${item.key}')">Estado</button>
+          <button onclick="resetKeyDevices('${item.key}')">Reset</button>
+          <button onclick="deleteKeyItem('${item.key}')">Borrar</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  updateStats();
+}
+
+function renderResellers(list = localResellers) {
+  const box = document.getElementById("resellersList");
+  if (!box) return;
+
+  if (!list.length) {
+    box.innerHTML = `<div class="empty-box">Todavía no hay revendedores.</div>`;
+    updateStats();
+    return;
+  }
+
+  box.innerHTML = list.map(item => {
+    let badgeClass = "active";
+    let badgeText = "activo";
+
+    if (item.status === "inactive") {
+      badgeClass = "inactive";
+      badgeText = "inactivo";
+    }
+
+    if (item.status === "paused") {
+      badgeClass = "paused";
+      badgeText = "pausado";
+    }
+
+    const deviceText = item.deviceLimit == -1
+      ? "Ilimitado"
+      : item.deviceLimit + " dispositivo(s)";
+
+    return `
+      <div class="reseller-item">
+        <div class="reseller-top">
+          <div class="reseller-code">${item.username}</div>
+          <div class="badge ${badgeClass}">${badgeText}</div>
+        </div>
+        <div class="reseller-meta">
+          Créditos: ${item.credits}<br>
+          Válido hasta: ${item.validUntil || "No definido"}<br>
+          Dispositivos: ${deviceText}<br>
+          Contraseña: ${item.password}
+        </div>
+        <div class="reseller-actions">
+  <button onclick="editReseller('${item.username}')">Editar</button>
+  <button onclick="openSellerKeysModal('${item.username}')">Usuarios</button>
+  <button onclick="cycleResellerStatus('${item.username}')">Estado</button>
+  <button onclick="deleteReseller('${item.username}')">Eliminar</button>
+</div>
+      </div>
+    `;
+  }).join("");
+
+  updateStats();
+}
+
+function filterKeys(text) {
+  if (!text) return localKeys;
+  const term = text.toLowerCase();
+  return localKeys.filter(item =>
+    String(item.key || "").toLowerCase().includes(term) ||
+    String(item.assignedTo || "").toLowerCase().includes(term)
+  );
+}
+
+function filterResellers(text) {
+  if (!text) return localResellers;
+  const term = text.toLowerCase();
+  return localResellers.filter(item =>
+    String(item.username || "").toLowerCase().includes(term)
+  );
+}
+
+window.copyKey = function(key) {
+  navigator.clipboard.writeText(key).then(() => {
+    addNotification("Key copiada", `Se copió la key ${key}`);
+    showToast("KEY", "Copiada", "success");
+  }).catch(() => showToast("ERROR", "No se pudo copiar.", "error"));
+};
+
+window.toggleKeyStatus = async function(key) {
+  try {
+    const i = localKeys.findIndex(k => k.key === key);
+    if (i === -1) return;
+
+    localKeys[i].status = localKeys[i].status === "activa" ? "inactiva" : "activa";
+
+    if (window.RTDB) {
+      await window.RTDB.update(
+        window.RTDB.ref(window.RTDB.db, "keys/" + key),
+        { status: localKeys[i].status }
+      );
+    }
+
+    renderKeys(filterKeys(document.getElementById("searchKeyInput").value.trim()));
+    addNotification("Estado key", `${key} cambió su estado`);
+    showToast("KEY", "Estado cambiado", "info");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo cambiar estado.", "error");
+  }
+};
+
+window.resetKeyDevices = async function(key) {
+  try {
+    const i = localKeys.findIndex(k => k.key === key);
+    if (i === -1) return;
+
+    localKeys[i].deviceIds = {};
+    localKeys[i].used = false;
+
+    if (window.RTDB) {
+      await window.RTDB.update(
+        window.RTDB.ref(window.RTDB.db, "keys/" + key),
+        { deviceIds: {}, used: false }
+      );
+    }
+
+    renderKeys(filterKeys(document.getElementById("searchKeyInput").value.trim()));
+    addNotification("Reset key", `Se resetearon los dispositivos de ${key}`);
+    showToast("KEY", "Reset hecho", "success");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo resetear.", "error");
+  }
+};
+
+window.deleteKeyItem = async function(key) {
+  try {
+    if (window.RTDB) {
+      await window.RTDB.remove(window.RTDB.ref(window.RTDB.db, "keys/" + key));
+    }
+
+    localKeys = localKeys.filter(k => k.key !== key);
+    renderKeys(filterKeys(document.getElementById("searchKeyInput").value.trim()));
+    addNotification("Key eliminada", key);
+    showToast("KEY", "Eliminada", "error");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo eliminar la key.", "error");
+  }
+};
+
+window.copyReseller = function(username, password) {
+  const text = `${username} | ${password}`;
+  navigator.clipboard.writeText(text).then(() => {
+    addNotification("Revendedor copiado", username);
+    showToast("RESELLER", "Copiado", "success");
+  }).catch(() => showToast("ERROR", "No se pudo copiar.", "error"));
+};
+
+window.cycleResellerStatus = async function(username) {
+  try {
+    const i = localResellers.findIndex(r => r.username === username);
+    if (i === -1) return;
+
+    let nextStatus = "active";
+
+    if (localResellers[i].status === "active") nextStatus = "inactive";
+    else if (localResellers[i].status === "inactive") nextStatus = "paused";
+    else if (localResellers[i].status === "paused") nextStatus = "active";
+
+    localResellers[i].status = nextStatus;
+
+    if (window.RTDB) {
+      await window.RTDB.update(
+        window.RTDB.ref(window.RTDB.db, "resellers/" + username),
+        { status: nextStatus }
+      );
+    }
+
+    renderResellers(filterResellers(document.getElementById("searchResellerInput").value.trim()));
+    addNotification("Revendedor actualizado", `${username} → ${nextStatus}`);
+    showToast("RESELLER", "Estado cambiado", "info");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo cambiar estado.", "error");
+  }
+};
+
+window.deleteReseller = async function(username) {
+  try {
+    if (window.RTDB) {
+      await window.RTDB.remove(window.RTDB.ref(window.RTDB.db, "resellers/" + username));
+    }
+
+    localResellers = localResellers.filter(r => r.username !== username);
+    renderResellers(filterResellers(document.getElementById("searchResellerInput").value.trim()));
+    addNotification("Revendedor eliminado", username);
+    showToast("RESELLER", "Eliminado", "error");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo eliminar.", "error");
+  }
+};
+
+window.editReseller = function(username) {
+  const item = localResellers.find(r => r.username === username);
+  if (!item) return;
+
+  showSection("addReseller");
+
+  document.getElementById("resellerUsername").value = item.username;
+  document.getElementById("resellerPassword").value = item.password;
+  document.getElementById("resellerValidUntil").value = item.validUntil || "";
+  document.getElementById("resellerStatus").value = item.status || "active";
+  document.getElementById("resellerDeviceLimit").value = String(item.deviceLimit);
+  document.getElementById("resellerCredits").value = String(item.credits);
+
+  showToast("RESELLER", "Datos cargados", "info");
+};
+
+const prefixInput = document.getElementById("prefix");
+const statusInput = document.getElementById("status");
+const durationInput = document.getElementById("duration");
+const deviceLimitInput = document.getElementById("deviceLimit");
+const assignedToInput = document.getElementById("assignedTo");
+const generatedKeyText = document.getElementById("generatedKeyText");
+const copyGeneratedBtn = document.getElementById("copyGeneratedBtn");
+const generateKeyBtn = document.getElementById("generateKeyBtn");
+const previewKeyBtn = document.getElementById("previewKeyBtn");
+const reloadKeysBtn = document.getElementById("reloadKeysBtn");
+const searchKeyInput = document.getElementById("searchKeyInput");
+const reloadResellersBtn = document.getElementById("reloadResellersBtn");
+const searchResellerInput = document.getElementById("searchResellerInput");
+const saveSettingsBtn = document.getElementById("saveSettingsBtn");
+const createResellerBtn = document.getElementById("createResellerBtn");
+
+generatedKeyText.textContent = "Sin generar";
+generatedKeyText.classList.add("empty");
+
+generateKeyBtn.addEventListener("click", async () => {
+  const prefix = prefixInput.value.trim() || "LxXiters";
+  const newKey = generateKey(prefix);
+
+  generatedKeyValue = newKey;
+  generatedKeyText.textContent = newKey;
+  generatedKeyText.classList.remove("empty");
+  document.getElementById("lastGenerated").textContent = newKey;
+
+  const newItem = {
+    key: newKey,
+    status: statusInput.value,
+    duration: durationInput.value,
+    assignedTo: assignedToInput.value.trim(),
+    deviceLimit: parseInt(deviceLimitInput.value, 10),
+    deviceIds: {},
+    used: false,
+    createdAt: Date.now()
+  };
+
+  try {
+    if (window.RTDB) {
+      await window.RTDB.set(
+        window.RTDB.ref(window.RTDB.db, "keys/" + newKey),
+        newItem
+      );
+    }
+
+    const existing = localKeys.findIndex(k => k.key === newKey);
+    if (existing >= 0) {
+      localKeys[existing] = newItem;
+    } else {
+      localKeys.unshift(newItem);
+    }
+
+    renderKeys(filterKeys(searchKeyInput.value.trim()));
+    addNotification("Nueva key", newKey);
+    showToast("KEY", "Guardada", "success");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo guardar la key.", "error");
+  }
+});
+
+previewKeyBtn.addEventListener("click", () => {
+  const prefix = prefixInput.value.trim() || "LxXiters";
+  generatedKeyText.textContent = generateKey(prefix);
+  generatedKeyText.classList.remove("empty");
+  showToast("PREVIEW", "Vista previa", "info");
+});
+
+copyGeneratedBtn.addEventListener("click", () => {
+  const value = generatedKeyValue.trim();
+  if (!value) {
+    showToast("ERROR", "Primero genera una key.", "error");
+    return;
+  }
+
+  navigator.clipboard.writeText(value).then(() => {
+    addNotification("Key copiada", value);
+    showToast("KEY", "Copiada", "success");
+  }).catch(() => showToast("ERROR", "No se pudo copiar.", "error"));
+});
+
+if (searchKeyInput) {
+  searchKeyInput.addEventListener("input", () => {
+    renderKeys(filterKeys(searchKeyInput.value.trim()));
+  });
+}
+
+if (searchResellerInput) {
+  searchResellerInput.addEventListener("input", () => {
+    renderResellers(filterResellers(searchResellerInput.value.trim()));
+  });
+}
+
+if (reloadKeysBtn) {
+  reloadKeysBtn.addEventListener("click", async () => {
+    await loadKeysFromRTDB();
+    renderKeys(filterKeys(searchKeyInput ? searchKeyInput.value.trim() : ""));
+    showToast("KEYS", "Recargadas", "info");
+  });
+}
+
+if (reloadResellersBtn) {
+  reloadResellersBtn.addEventListener("click", async () => {
+    await loadResellersFromRTDB();
+    renderResellers(filterResellers(searchResellerInput ? searchResellerInput.value.trim() : ""));
+    showToast("RESELLERS", "Recargados", "info");
+  });
+}
+
+createResellerBtn.addEventListener("click", async () => {
+  const usernameEl = document.getElementById("resellerUsername");
+  const passwordEl = document.getElementById("resellerPassword");
+  const validUntilEl = document.getElementById("resellerValidUntil");
+  const statusEl = document.getElementById("resellerStatus");
+  const deviceLimitEl = document.getElementById("resellerDeviceLimit");
+  const creditsEl = document.getElementById("resellerCredits");
+
+  if (!usernameEl || !passwordEl || !validUntilEl || !statusEl || !deviceLimitEl || !creditsEl) {
+    showToast("ERROR", "Faltan elementos del formulario.", "error");
+    return;
+  }
+
+  const username = usernameEl.value.trim();
+  const password = passwordEl.value.trim();
+  const validUntil = validUntilEl.value;
+  const status = statusEl.value;
+  const deviceLimit = parseInt(deviceLimitEl.value, 10);
+  const credits = parseInt(creditsEl.value, 10);
+
+  if (!username || !password) {
+    showToast("ERROR", "Pon usuario y contraseña.", "error");
+    return;
+  }
+
+  const payload = {
+  username,
+  password,
+  validUntil,
+  status,
+  deviceLimit,
+  credits,
+  type: "revendedor",
+  createdAt: Date.now(),
+  currentDevice: null,
+  activeSession: false,
+  blockedDevices: {}
+};
+
+  try {
+    if (window.RTDB) {
+      await window.RTDB.set(
+        window.RTDB.ref(window.RTDB.db, "resellers/" + username),
+        payload
+      );
+    }
+
+    const existing = localResellers.findIndex(r => r.username.toLowerCase() === username.toLowerCase());
+
+    if (existing >= 0) {
+      localResellers[existing] = payload;
+      addNotification("Revendedor editado", username);
+      showToast("RESELLER", "Guardado", "success");
+    } else {
+      localResellers.unshift(payload);
+      document.getElementById("lastReseller").textContent = username;
+      addNotification("Revendedor creado", username);
+      showToast("RESELLER", "Creado", "success");
+    }
+
+    renderResellers(filterResellers(searchResellerInput ? searchResellerInput.value.trim() : ""));
+
+    usernameEl.value = "";
+    passwordEl.value = "";
+    validUntilEl.value = "";
+    statusEl.value = "active";
+    deviceLimitEl.value = "1";
+    creditsEl.value = "10";
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo guardar el revendedor.", "error");
+  }
+});
+
+saveSettingsBtn.addEventListener("click", async () => {
+  const version = document.getElementById("appVersion").value.trim();
+  const maintenance = document.getElementById("maintenanceMode").value;
+  const message = document.getElementById("maintenanceMessage").value.trim();
+  const link = document.getElementById("supportLink").value.trim();
+
+  document.getElementById("appVersionText").textContent = version || "1.0.0";
+  document.getElementById("maintenanceState").textContent = maintenance === "true" ? "Activado" : "Desactivado";
+
+  const payload = {
+    version: version || "1.0.0",
+    maintenance: maintenance === "true",
+    message,
+    link,
+    updatedAt: Date.now()
+  };
+
+  try {
+    if (window.RTDB) {
+      await window.RTDB.set(
+        window.RTDB.ref(window.RTDB.db, "settings/main"),
+        payload
+      );
+    }
+
+    addNotification("Settings guardados", "Panel actualizado");
+    showToast("SETTINGS", "Guardados", "success");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudieron guardar settings.", "error");
+  }
+});
+
+async function loadResellersFromRTDB() {
+  try {
+    if (!window.RTDB) return;
+
+    const snapshot = await window.RTDB.get(
+      window.RTDB.ref(window.RTDB.db, "resellers")
+    );
+
+    localResellers = [];
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+
+      Object.keys(data).forEach((key) => {
+        const item = data[key];
+        localResellers.push({
+          username: item.username || key,
+          password: item.password || "",
+          validUntil: item.validUntil || "",
+          status: item.status || "active",
+          deviceLimit: Number(item.deviceLimit ?? 1),
+          credits: Number(item.credits ?? 0),
+          type: item.type || "revendedor",
+          createdAt: item.createdAt || 0
+        });
+      });
+    }
+
+    localResellers.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    renderResellers(localResellers);
+    updateStats();
+  } catch (error) {
+    console.error("Error cargando revendedores:", error);
+    showToast("ERROR", "No se pudieron cargar revendedores.", "error");
+  }
+}
+
+async function loadKeysFromRTDB() {
+  try {
+    if (!window.RTDB) return;
+
+    const snapshot = await window.RTDB.get(
+      window.RTDB.ref(window.RTDB.db, "keys")
+    );
+
+    localKeys = [];
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+
+      Object.keys(data).forEach((key) => {
+        const item = data[key];
+        localKeys.push({
+          key: item.key || key,
+          status: item.status || "activa",
+          duration: item.duration || "",
+          assignedTo: item.assignedTo || "",
+          deviceLimit: Number(item.deviceLimit ?? 1),
+          deviceIds: item.deviceIds || {},
+          used: !!item.used,
+          createdAt: item.createdAt || 0
+        });
+      });
+    }
+
+    localKeys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    renderKeys(localKeys);
+    updateStats();
+  } catch (error) {
+    console.error("Error cargando keys:", error);
+    showToast("ERROR", "No se pudieron cargar keys.", "error");
+  }
+}
+window.openSellerKeysModal = async function(username) {
+  try {
+    document.getElementById("sellerKeysTitle").textContent = `Keys de ${username}`;
+    document.getElementById("sellerKeysSubtitle").textContent = "Todas las keys creadas por este vendedor";
+    document.getElementById("sellerKeysOverlay").classList.add("show");
+
+    const box = document.getElementById("sellerKeysList");
+    box.innerHTML = `<div class="empty-box">Cargando keys...</div>`;
+
+    if (!window.RTDB) return;
+
+    const snapshot = await window.RTDB.get(
+      window.RTDB.ref(window.RTDB.db, "keys")
+    );
+
+    let sellerKeys = [];
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+
+      Object.keys(data).forEach((keyId) => {
+        const item = data[keyId];
+
+        if ((item.createdBy || "") === username && !item.deleted) {
+          sellerKeys.push({
+            key: item.key || keyId,
+            duration: item.duration || "No definido",
+            deviceLimit: Number(item.deviceLimit ?? 1),
+            status: item.status || "activa",
+            createdAt: item.createdAt || 0,
+            sold: !!item.sold
+          });
+        }
+      });
+    }
+
+    sellerKeys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    if (!sellerKeys.length) {
+      box.innerHTML = `<div class="empty-box">No hay keys creadas por este vendedor.</div>`;
+      return;
+    }
+
+    box.innerHTML = sellerKeys.map(item => {
+      const badgeClass = item.status === "activa" ? "active" : "inactive";
+      const deviceText = item.deviceLimit == -1 ? "Ilimitado" : item.deviceLimit + " dispositivo(s)";
+
+      return `
+        <div class="key-item">
+          <div class="key-top">
+            <div class="key-code">${item.key}</div>
+            <div class="badge ${badgeClass}">${item.status}</div>
+          </div>
+
+          <div class="key-meta">
+            Duración: ${item.duration}<br>
+            Dispositivos: ${deviceText}<br>
+            Creada: ${formatSellerDate(item.createdAt)}<br>
+            Vendida: ${item.sold ? "Sí" : "No"}
+          </div>
+
+          <div class="key-actions" style="grid-template-columns:1fr 1fr;">
+            <button onclick="copyKey('${item.key}')">Copiar</button>
+            <button class="seller-key-delete" onclick="deleteSellerCreatedKey('${item.key}','${username}')">Eliminar</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudieron cargar las keys del vendedor.", "error");
+  }
+};
+
+window.closeSellerKeysModal = function() {
+  document.getElementById("sellerKeysOverlay").classList.remove("show");
+};
+
+window.deleteSellerCreatedKey = async function(key, username) {
+  try {
+    if (window.RTDB) {
+      await window.RTDB.remove(window.RTDB.ref(window.RTDB.db, "keys/" + key));
+    }
+
+    showToast("KEY", "Eliminada", "success");
+    openSellerKeysModal(username);
+    await loadKeysFromRTDB();
+  } catch (error) {
+    console.error(error);
+    showToast("ERROR", "No se pudo eliminar la key.", "error");
+  }
+};
+
+function formatSellerDate(value) {
+  if (!value) return "No definido";
+  const date = new Date(value);
+  if (isNaN(date.getTime())) return String(value);
+  return date.toLocaleString();
+}
+document.getElementById("sellerKeysOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "sellerKeysOverlay") {
+    closeSellerKeysModal();
+  }
+});
+async function seedDemoData() {
+  localKeys = [];
+  localResellers = [];
+
+  notifications = [
+    {
+      title: "Sistema iniciado",
+      text: "Panel cargado correctamente",
+      date: new Date().toLocaleString()
+    }
+  ];
+
+  renderKeys(localKeys);
+  renderResellers(localResellers);
+  renderNotifications();
+  updateStats();
+
+  let tries = 0;
+  const waitFirebase = setInterval(async () => {
+    tries++;
+
+    if (window.RTDB) {
+      clearInterval(waitFirebase);
+      await loadResellersFromRTDB();
+      await loadKeysFromRTDB();
+    }
+
+    if (tries > 20) {
+      clearInterval(waitFirebase);
+      showToast("ERROR", "Firebase no cargó.", "error");
+    }
+  }, 500);
+}
+function applySettings(data) {
+  const maintenanceState = document.getElementById("maintenanceState");
+  const versionText = document.getElementById("appVersionText");
+  const appVersionInput = document.getElementById("appVersion");
+  const maintenanceModeInput = document.getElementById("maintenanceMode");
+  const maintenanceMessageInput = document.getElementById("maintenanceMessage");
+  const supportLinkInput = document.getElementById("supportLink");
+
+  if (versionText) {
+    versionText.textContent = data.version || "1.0.0";
+  }
+
+  if (appVersionInput) {
+    appVersionInput.value = data.version || "1.0.0";
+  }
+
+  if (maintenanceState) {
+    maintenanceState.textContent = data.maintenance ? "Activado" : "Desactivado";
+  }
+
+  if (maintenanceModeInput) {
+    maintenanceModeInput.value = data.maintenance ? "true" : "false";
+  }
+
+  if (maintenanceMessageInput) {
+    maintenanceMessageInput.value = data.message || "";
+  }
+
+  if (supportLinkInput) {
+    supportLinkInput.value = data.link || "";
+  }
+}
+
+function listenSettingsRealtime() {
+  const waitFirebase = setInterval(() => {
+    if (!window.RTDB) return;
+
+    clearInterval(waitFirebase);
+
+    const settingsRef = window.RTDB.ref(window.RTDB.db, "settings/main");
+
+    window.RTDB.onValue(settingsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        applySettings(snapshot.val());
+      } else {
+        applySettings({
+          version: "1.0.0",
+          maintenance: false,
+          message: "",
+          link: ""
+        });
+      }
+    });
+  }, 300);
+}
+
+listenSettingsRealtime();
+seedDemoData();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import {
+  getDatabase,
+  ref,
+  set,
+  get,
+  update,
+  remove,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA74DCIkgU8UTPp8YfBXCd1jodxZyPaHog",
+    authDomain: "lx-xiters-web-1d853.firebaseapp.com",
+    databaseURL: "https://lx-xiters-web-default-rtdb.firebaseio.com",
+    projectId: "lx-xiters-web-1d853",
+    storageBucket: "lx-xiters-web-1d853.firebasestorage.app",
+    messagingSenderId: "209933531654",
+    appId: "1:209933531654:web:31b70f82f5cc88afc32187",
+    measurementId: "G-XH12J8PR7E"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window.RTDB = {
+  db,
+  ref,
+  set,
+  get,
+  update,
+  remove,
+  onValue
+};
+</script>
+</body>
+</html>
